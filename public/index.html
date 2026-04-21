@@ -1,333 +1,374 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#09090f" />
   <title>SUDOKU — The Logic Puzzle</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@300;400;500;600&display=swap"
-    rel="stylesheet"
-  />
+    rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
 
-<!-- ═══════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════
      WELCOME SCREEN
 ════════════════════════════════════════════════════════ -->
-<div id="welcome-screen" class="screen active">
-  <!-- Decorative background grid -->
-  <div class="bg-grid" aria-hidden="true">
-    <div class="bg-grid-inner">
-      <span>5</span><span></span><span>3</span><span></span><span>7</span><span></span><span></span><span></span><span></span>
-      <span>6</span><span></span><span></span><span>1</span><span>9</span><span>5</span><span></span><span></span><span></span>
-      <span></span><span>9</span><span>8</span><span></span><span></span><span></span><span></span><span>6</span><span></span>
-      <span>8</span><span></span><span></span><span></span><span>6</span><span></span><span></span><span></span><span>3</span>
-      <span>4</span><span></span><span></span><span>8</span><span></span><span>3</span><span></span><span></span><span>1</span>
-      <span>7</span><span></span><span></span><span></span><span>2</span><span></span><span></span><span></span><span>6</span>
-      <span></span><span>6</span><span></span><span></span><span></span><span></span><span>2</span><span>8</span><span></span>
-      <span></span><span></span><span></span><span>4</span><span>1</span><span>9</span><span></span><span></span><span>5</span>
-      <span></span><span></span><span></span><span></span><span>8</span><span></span><span></span><span>7</span><span>9</span>
-    </div>
-  </div>
-
-  <div class="welcome-content">
-    <!-- Logo -->
-    <header class="welcome-header">
-      <div class="logo-emblem">
-        <div class="emblem-grid">
-          <span></span><span></span><span></span>
-          <span></span><span class="center"></span><span></span>
-          <span></span><span></span><span></span>
-        </div>
-      </div>
-      <h1 class="main-title">SUDOKU</h1>
-      <p class="tagline">The Art of Pure Logic</p>
-    </header>
-
-    <!-- Rules -->
-    <section class="rules-section">
-      <div class="section-header">
-        <div class="section-line"></div>
-        <h2 class="section-label">How to Play</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="rules-grid">
-        <div class="rule-card">
-          <div class="rule-num">01</div>
-          <div class="rule-text">Fill every <strong>row</strong> with digits 1–9. No digit may repeat in a row.</div>
-        </div>
-        <div class="rule-card">
-          <div class="rule-num">02</div>
-          <div class="rule-text">Fill every <strong>column</strong> with digits 1–9. No digit may repeat in a column.</div>
-        </div>
-        <div class="rule-card">
-          <div class="rule-num">03</div>
-          <div class="rule-text">Fill every <strong>3×3 box</strong> with digits 1–9. No digit may repeat in a box.</div>
-        </div>
-        <div class="rule-card">
-          <div class="rule-num">04</div>
-          <div class="rule-text">Use <strong>logic alone</strong> to deduce each number. No guessing required.</div>
-        </div>
-        <div class="rule-card">
-          <div class="rule-num">05</div>
-          <div class="rule-text"><strong>Notes Mode</strong> lets you pencil in candidates — tap N or the Notes button.</div>
-        </div>
-        <div class="rule-card">
-          <div class="rule-num">06</div>
-          <div class="rule-text">Every <strong>mistake</strong> costs −100 pts. Every <strong>hint</strong> costs −150 pts. Solve fast for a bonus!</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Keyboard Shortcuts -->
-    <section class="shortcuts-section">
-      <div class="section-header">
-        <div class="section-line"></div>
-        <h2 class="section-label">Keyboard Shortcuts</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="shortcuts-grid">
-        <div class="shortcut"><kbd>1–9</kbd><span>Place number</span></div>
-        <div class="shortcut"><kbd>⌫</kbd><span>Erase cell</span></div>
-        <div class="shortcut"><kbd>←↑→↓</kbd><span>Move selection</span></div>
-        <div class="shortcut"><kbd>N</kbd><span>Toggle notes</span></div>
-        <div class="shortcut"><kbd>Ctrl Z</kbd><span>Undo</span></div>
-        <div class="shortcut"><kbd>H</kbd><span>Get hint</span></div>
-      </div>
-    </section>
-
-    <!-- Difficulty -->
-    <section class="difficulty-section">
-      <div class="section-header">
-        <div class="section-line"></div>
-        <h2 class="section-label">Select Difficulty</h2>
-        <div class="section-line"></div>
-      </div>
-      <div class="difficulty-cards">
-        <button class="diff-card" data-difficulty="easy">
-          <div class="diff-dots">
-            <span class="dot filled"></span><span class="dot filled"></span>
-            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-          </div>
-          <span class="diff-name">Easy</span>
-          <span class="diff-desc">51 cells given · 1000 pts</span>
-        </button>
-        <button class="diff-card active" data-difficulty="medium">
-          <div class="diff-dots">
-            <span class="dot filled"></span><span class="dot filled"></span>
-            <span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
-          </div>
-          <span class="diff-name">Medium</span>
-          <span class="diff-desc">36 cells given · 2000 pts</span>
-        </button>
-        <button class="diff-card" data-difficulty="hard">
-          <div class="diff-dots">
-            <span class="dot filled"></span><span class="dot filled"></span>
-            <span class="dot filled"></span><span class="dot filled"></span>
-            <span class="dot filled"></span>
-          </div>
-          <span class="diff-name">Hard</span>
-          <span class="diff-desc">26 cells given · 3000 pts</span>
-        </button>
-      </div>
-    </section>
-
-    <button id="start-btn" class="start-btn">
-      <span>Begin Puzzle</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-      </svg>
-    </button>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════════════
-     GAME SCREEN
-════════════════════════════════════════════════════════ -->
-<div id="game-screen" class="screen">
-
-  <!-- Header -->
-  <header class="game-header">
-    <button id="back-btn" class="icon-btn" title="Back to Menu" aria-label="Back to Menu">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
-      </svg>
-    </button>
-
-    <div class="header-brand">
-      <span class="header-title">SUDOKU</span>
-      <span class="diff-badge" id="diff-badge">Medium</span>
-    </div>
-
-    <div class="stats-row">
-      <div class="stat-box">
-        <span class="stat-lbl">SCORE</span>
-        <span class="stat-val" id="score-display">0</span>
-      </div>
-      <div class="stat-sep"></div>
-      <div class="stat-box">
-        <span class="stat-lbl">TIME</span>
-        <span class="stat-val mono" id="timer-display">00:00</span>
-      </div>
-      <div class="stat-sep"></div>
-      <div class="stat-box">
-        <span class="stat-lbl">MOVES</span>
-        <span class="stat-val" id="moves-display">0</span>
-      </div>
-      <div class="stat-sep"></div>
-      <div class="stat-box">
-        <span class="stat-lbl">ERRORS</span>
-        <span class="stat-val error-val" id="errors-display">0</span>
+  <div id="welcome-screen" class="screen active">
+    <!-- Decorative background grid -->
+    <div class="bg-grid" aria-hidden="true">
+      <div class="bg-grid-inner">
+        <span>5</span><span></span><span>3</span><span></span><span>7</span><span></span><span></span><span></span><span></span>
+        <span>6</span><span></span><span></span><span>1</span><span>9</span><span>5</span><span></span><span></span><span></span>
+        <span></span><span>9</span><span>8</span><span></span><span></span><span></span><span></span><span>6</span><span></span>
+        <span>8</span><span></span><span></span><span></span><span>6</span><span></span><span></span><span></span><span>3</span>
+        <span>4</span><span></span><span></span><span>8</span><span></span><span>3</span><span></span><span></span><span>1</span>
+        <span>7</span><span></span><span></span><span></span><span>2</span><span></span><span></span><span></span><span>6</span>
+        <span></span><span>6</span><span></span><span></span><span></span><span></span><span>2</span><span>8</span><span></span>
+        <span></span><span></span><span></span><span>4</span><span>1</span><span>9</span><span></span><span></span><span>5</span>
+        <span></span><span></span><span></span><span></span><span>8</span><span></span><span></span><span>7</span><span>9</span>
       </div>
     </div>
-  </header>
 
-  <!-- Main Game Area -->
-  <main class="game-main">
-    <div class="game-layout">
-
-      <!-- Board -->
-      <div class="board-wrap">
-        <!-- Loading -->
-        <div id="loading-overlay" class="loading-overlay">
-          <div class="loader-ring"></div>
-          <p>Crafting your puzzle…</p>
+    <div class="welcome-content">
+      <!-- Logo -->
+      <header class="welcome-header">
+        <div class="logo-emblem">
+          <div class="emblem-grid">
+            <span></span><span></span><span></span>
+            <span></span><span class="center"></span><span></span>
+            <span></span><span></span><span></span>
+          </div>
         </div>
+        <h1 class="main-title">SUDOKU</h1>
+        <p class="tagline">The Art of Pure Logic</p>
+      </header>
 
-        <!-- Grid -->
-        <div id="sudoku-board" class="sudoku-board" role="grid" aria-label="Sudoku board"></div>
-
-        <!-- Completion overlay -->
-        <div id="completion-overlay" class="completion-overlay hidden">
-          <div class="completion-card">
-            <div class="trophy-icon">🏆</div>
-            <h2 class="complete-title">Puzzle Complete!</h2>
-            <p class="complete-sub">Exceptional work, logician.</p>
-            <div class="final-stats">
-              <div class="final-stat-row">
-                <span>Final Score</span>
-                <strong id="final-score">—</strong>
-              </div>
-              <div class="final-stat-row">
-                <span>Time Taken</span>
-                <strong id="final-time">—</strong>
-              </div>
-              <div class="final-stat-row">
-                <span>Total Moves</span>
-                <strong id="final-moves">—</strong>
-              </div>
-              <div class="final-stat-row">
-                <span>Errors Made</span>
-                <strong id="final-errors">—</strong>
-              </div>
+      <!-- Rules -->
+      <section class="rules-section">
+        <div class="section-header">
+          <div class="section-line"></div>
+          <h2 class="section-label">How to Play</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="rules-grid">
+          <div class="rule-card">
+            <div class="rule-num">01</div>
+            <div class="rule-text">Fill every <strong>row</strong> with digits 1–9. No digit may repeat in a row.</div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-num">02</div>
+            <div class="rule-text">Fill every <strong>column</strong> with digits 1–9. No digit may repeat in a column.
             </div>
-            <button id="play-again-btn" class="start-btn compact">Play Again</button>
+          </div>
+          <div class="rule-card">
+            <div class="rule-num">03</div>
+            <div class="rule-text">Fill every <strong>3×3 box</strong> with digits 1–9. No digit may repeat in a box.
+            </div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-num">04</div>
+            <div class="rule-text">Use <strong>logic alone</strong> to deduce each number. No guessing required.</div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-num">05</div>
+            <div class="rule-text"><strong>Notes Mode</strong> lets you pencil in candidates — tap N or the Notes
+              button.</div>
+          </div>
+          <div class="rule-card">
+            <div class="rule-num">06</div>
+            <div class="rule-text">Every <strong>mistake</strong> costs −100 pts. Every <strong>hint</strong> costs −150
+              pts. Solve fast for a bonus!</div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Controls Panel -->
-      <aside class="controls-panel">
-
-        <!-- Number Pad -->
-        <div class="panel-section">
-          <p class="panel-title">Numbers</p>
-          <div class="numpad">
-            <button class="num-btn" data-num="1"><span class="num-digit">1</span><span class="num-count" id="cnt-1"></span></button>
-            <button class="num-btn" data-num="2"><span class="num-digit">2</span><span class="num-count" id="cnt-2"></span></button>
-            <button class="num-btn" data-num="3"><span class="num-digit">3</span><span class="num-count" id="cnt-3"></span></button>
-            <button class="num-btn" data-num="4"><span class="num-digit">4</span><span class="num-count" id="cnt-4"></span></button>
-            <button class="num-btn" data-num="5"><span class="num-digit">5</span><span class="num-count" id="cnt-5"></span></button>
-            <button class="num-btn" data-num="6"><span class="num-digit">6</span><span class="num-count" id="cnt-6"></span></button>
-            <button class="num-btn" data-num="7"><span class="num-digit">7</span><span class="num-count" id="cnt-7"></span></button>
-            <button class="num-btn" data-num="8"><span class="num-digit">8</span><span class="num-count" id="cnt-8"></span></button>
-            <button class="num-btn" data-num="9"><span class="num-digit">9</span><span class="num-count" id="cnt-9"></span></button>
-            <button class="num-btn erase" data-num="0">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 5H9L3 12l6 7h11a2 2 0 002-2V7a2 2 0 00-2-2z"/><line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/>
-              </svg>
-            </button>
-          </div>
+      <!-- Keyboard Shortcuts -->
+      <section class="shortcuts-section">
+        <div class="section-header">
+          <div class="section-line"></div>
+          <h2 class="section-label">Keyboard Shortcuts</h2>
+          <div class="section-line"></div>
         </div>
-
-        <!-- Action Buttons -->
-        <div class="panel-section">
-          <p class="panel-title">Actions</p>
-          <div class="actions-grid">
-            <button class="action-btn" id="undo-btn" title="Undo (Ctrl+Z)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 00-4-4H4"/>
-              </svg>
-              <span>Undo</span>
-            </button>
-            <button class="action-btn" id="notes-btn" title="Notes Mode (N)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
-              </svg>
-              <span>Notes</span>
-            </button>
-            <button class="action-btn" id="hint-btn" title="Hint (H) — costs 150 pts">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-              </svg>
-              <span>Hint</span>
-            </button>
-            <button class="action-btn" id="check-btn" title="Check Board">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"/>
-              </svg>
-              <span>Check</span>
-            </button>
-            <button class="action-btn" id="pause-btn" title="Pause / Resume">
-              <svg id="pause-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>
-              </svg>
-              <span id="pause-label">Pause</span>
-            </button>
-            <button class="action-btn danger" id="solve-btn" title="Auto-solve — costs 500 pts">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polygon points="5 3 19 12 5 21 5 3"/>
-              </svg>
-              <span>Solve</span>
-            </button>
-          </div>
+        <div class="shortcuts-grid">
+          <div class="shortcut"><kbd>1–9</kbd><span>Place number</span></div>
+          <div class="shortcut"><kbd>⌫</kbd><span>Erase cell</span></div>
+          <div class="shortcut"><kbd>←↑→↓</kbd><span>Move selection</span></div>
+          <div class="shortcut"><kbd>N</kbd><span>Toggle notes</span></div>
+          <div class="shortcut"><kbd>Ctrl Z</kbd><span>Undo</span></div>
+          <div class="shortcut"><kbd>H</kbd><span>Get hint</span></div>
         </div>
+      </section>
 
-        <!-- New Game -->
-        <div class="panel-section">
-          <button class="new-game-btn" id="new-game-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
-              <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
-            </svg>
-            New Game
+      <!-- Difficulty -->
+      <section class="difficulty-section">
+        <div class="section-header">
+          <div class="section-line"></div>
+          <h2 class="section-label">Select Difficulty</h2>
+          <div class="section-line"></div>
+        </div>
+        <div class="difficulty-cards">
+          <button class="diff-card" data-difficulty="easy">
+            <div class="diff-dots">
+              <span class="dot filled"></span><span class="dot filled"></span>
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+            <span class="diff-name">Easy</span>
+            <span class="diff-desc">51 cells given · 1000 pts</span>
+          </button>
+          <button class="diff-card active" data-difficulty="medium">
+            <div class="diff-dots">
+              <span class="dot filled"></span><span class="dot filled"></span>
+              <span class="dot filled"></span><span class="dot"></span><span class="dot"></span>
+            </div>
+            <span class="diff-name">Medium</span>
+            <span class="diff-desc">36 cells given · 2000 pts</span>
+          </button>
+          <button class="diff-card" data-difficulty="hard">
+            <div class="diff-dots">
+              <span class="dot filled"></span><span class="dot filled"></span>
+              <span class="dot filled"></span><span class="dot filled"></span>
+              <span class="dot filled"></span>
+            </div>
+            <span class="diff-name">Hard</span>
+            <span class="diff-desc">26 cells given · 3000 pts</span>
           </button>
         </div>
+      </section>
 
-      </aside>
-    </div>
-  </main>
-
-  <!-- Pause Overlay -->
-  <div id="pause-overlay" class="pause-overlay hidden">
-    <div class="pause-card">
-      <div class="pause-icon-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>
+      <button id="start-btn" class="start-btn">
+        <span>Begin Puzzle</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
         </svg>
-      </div>
-      <h2>Game Paused</h2>
-      <p>Take your time. Logic waits.</p>
-      <button id="resume-btn" class="start-btn compact">Resume</button>
+      </button>
     </div>
   </div>
 
-</div>
+  <!-- ═══════════════════════════════════════════════════════
+     GAME SCREEN
+════════════════════════════════════════════════════════ -->
+  <div id="game-screen" class="screen">
 
-<!-- Toast notification -->
-<div id="toast" class="toast hidden"></div>
+    <!-- Header -->
+    <header class="game-header">
+      <button id="back-btn" class="icon-btn" title="Back to Menu" aria-label="Back to Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12" />
+          <polyline points="12 19 5 12 12 5" />
+        </svg>
+      </button>
 
-<script src="js/game.js"></script>
+      <div class="header-brand">
+        <span class="header-title">SUDOKU</span>
+        <span class="diff-badge" id="diff-badge">Medium</span>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <span class="stat-lbl">SCORE</span>
+          <span class="stat-val" id="score-display">0</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-box">
+          <span class="stat-lbl">TIME</span>
+          <span class="stat-val mono" id="timer-display">00:00</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-box">
+          <span class="stat-lbl">MOVES</span>
+          <span class="stat-val" id="moves-display">0</span>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-box">
+          <span class="stat-lbl">ERRORS</span>
+          <span class="stat-val error-val" id="errors-display">0</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Game Area -->
+    <main class="game-main">
+      <div class="game-layout">
+
+        <!-- Board -->
+        <div class="board-wrap">
+          <!-- Loading -->
+          <div id="loading-overlay" class="loading-overlay">
+            <div class="loader-ring"></div>
+            <p>Crafting your puzzle…</p>
+          </div>
+
+          <!-- Grid -->
+          <div id="sudoku-board" class="sudoku-board" role="grid" aria-label="Sudoku board"></div>
+
+          <!-- Completion overlay -->
+          <div id="completion-overlay" class="completion-overlay hidden">
+            <div class="completion-card">
+              <div class="trophy-icon">🏆</div>
+              <h2 class="complete-title">Puzzle Complete!</h2>
+              <p class="complete-sub">Exceptional work, logician.</p>
+              <div class="final-stats">
+                <div class="final-stat-row">
+                  <span>Final Score</span>
+                  <strong id="final-score">—</strong>
+                </div>
+                <div class="final-stat-row">
+                  <span>Time Taken</span>
+                  <strong id="final-time">—</strong>
+                </div>
+                <div class="final-stat-row">
+                  <span>Total Moves</span>
+                  <strong id="final-moves">—</strong>
+                </div>
+                <div class="final-stat-row">
+                  <span>Errors Made</span>
+                  <strong id="final-errors">—</strong>
+                </div>
+              </div>
+              <button id="play-again-btn" class="start-btn compact">Play Again</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Controls Panel -->
+        <aside class="controls-panel">
+
+          <!-- Number Pad -->
+          <div class="panel-section">
+            <p class="panel-title">Numbers</p>
+            <div class="numpad">
+              <button class="num-btn" data-num="1"><span class="num-digit">1</span><span class="num-count"
+                  id="cnt-1"></span></button>
+              <button class="num-btn" data-num="2"><span class="num-digit">2</span><span class="num-count"
+                  id="cnt-2"></span></button>
+              <button class="num-btn" data-num="3"><span class="num-digit">3</span><span class="num-count"
+                  id="cnt-3"></span></button>
+              <button class="num-btn" data-num="4"><span class="num-digit">4</span><span class="num-count"
+                  id="cnt-4"></span></button>
+              <button class="num-btn" data-num="5"><span class="num-digit">5</span><span class="num-count"
+                  id="cnt-5"></span></button>
+              <button class="num-btn" data-num="6"><span class="num-digit">6</span><span class="num-count"
+                  id="cnt-6"></span></button>
+              <button class="num-btn" data-num="7"><span class="num-digit">7</span><span class="num-count"
+                  id="cnt-7"></span></button>
+              <button class="num-btn" data-num="8"><span class="num-digit">8</span><span class="num-count"
+                  id="cnt-8"></span></button>
+              <button class="num-btn" data-num="9"><span class="num-digit">9</span><span class="num-count"
+                  id="cnt-9"></span></button>
+              <button class="num-btn erase" data-num="0">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M20 5H9L3 12l6 7h11a2 2 0 002-2V7a2 2 0 00-2-2z" />
+                  <line x1="18" y1="9" x2="12" y2="15" />
+                  <line x1="12" y1="9" x2="18" y2="15" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="panel-section">
+            <p class="panel-title">Actions</p>
+            <div class="actions-grid">
+              <button class="action-btn" id="undo-btn" title="Undo (Ctrl+Z)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polyline points="9 14 4 9 9 4" />
+                  <path d="M20 20v-7a4 4 0 00-4-4H4" />
+                </svg>
+                <span>Undo</span>
+              </button>
+              <button class="action-btn" id="notes-btn" title="Notes Mode (N)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M12 20h9" />
+                  <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+                </svg>
+                <span>Notes</span>
+              </button>
+              <button class="action-btn" id="hint-btn" title="Hint (H) — costs 150 pts">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="12" />
+                  <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                <span>Hint</span>
+              </button>
+              <button class="action-btn" id="check-btn" title="Check Board">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                <span>Check</span>
+              </button>
+              <button class="action-btn" id="pause-btn" title="Pause / Resume">
+                <svg id="pause-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="6" y="4" width="4" height="16" />
+                  <rect x="14" y="4" width="4" height="16" />
+                </svg>
+                <span id="pause-label">Pause</span>
+              </button>
+              <button class="action-btn danger" id="solve-btn" title="Auto-solve — costs 500 pts">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <polygon points="5 3 19 12 5 21 5 3" />
+                </svg>
+                <span>Solve</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- New Game -->
+          <div class="panel-section">
+            <button class="new-game-btn" id="new-game-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10" />
+                <polyline points="1 20 1 14 7 14" />
+                <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" />
+              </svg>
+              New Game
+            </button>
+          </div>
+
+        </aside>
+      </div>
+    </main>
+
+    <!-- Pause Overlay -->
+    <div id="pause-overlay" class="pause-overlay hidden">
+      <div class="pause-card">
+        <div class="pause-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round">
+            <rect x="6" y="4" width="4" height="16" />
+            <rect x="14" y="4" width="4" height="16" />
+          </svg>
+        </div>
+        <h2>Game Paused</h2>
+        <p>Take your time. Logic waits.</p>
+        <button id="resume-btn" class="start-btn compact">Resume</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="js/game.js"></script>
 </body>
+
 </html>
